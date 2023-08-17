@@ -9,9 +9,15 @@
 ## General Authentication
 
 To access endpoints other than `Authenticate`, `Sign-in`, and `Register`, you need to include an `Authorization header` in your requests with a valid token. Tokens can be obtained through the `Authenticate` procedure.
-- **Header:**
+- **Possible request (with header):**
 ```json
-YOUR_TOKEN
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_TOKEN" -H "Nonce: YOUR_NONCE" -H "User-Wallet-Address: YOUR_WALLET_ADDRESS" -d '{
+    "type": "artifact",
+    "version": "0.1",
+    "subtype": "tweet",
+    "user": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
+    "content": "This serves as an example of a tweet."
+}' http://localhost:8080/create-artifact
 ```
 
 
@@ -86,6 +92,22 @@ Status message confirming user registration
 {
     "ipfsCID": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
 }
+```
+- **Possible testing:**
+1. Run main.go for the server (localhost:8080 by default)
+2. Open a terminal and use curl to test the endpoint
+```
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_TOKEN" -d '{
+    "type": "artifact",
+    "version": "0.1",
+    "subtype": "tweet",
+    "user": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
+    "content": "This serves as an example of a tweet."
+}' http://localhost:8080/create-artifact
+```
+3. Check the response, something similar
+```
+{"ipfsCID":"0x123456"}
 ```
 
 ## Create action
