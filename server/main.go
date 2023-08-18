@@ -15,6 +15,8 @@ func main() {
 	artifactService := artifact.NewArtifactService(repo)
 	artifactHandler := api.NewArtifactHandler(artifactService)
 
+	http.HandleFunc("/get-nonce", api.GetNonceHandler)
+	http.HandleFunc("/sign-in", api.SignInHandler)
 	http.HandleFunc("/create-artifact", logRequest(artifactHandler.CreateArtifact))
 
 	port := ":8080"
