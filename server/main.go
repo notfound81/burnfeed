@@ -1,17 +1,24 @@
 package main
 
 import (
+	"api-server/api"
+	"api-server/internal/artifact"
 	"log"
 	"net/http"
-
-	"api-server/api"
-
-	"api-server/internal/artifact"
 )
 
 func main() {
+	// Config parameters hard-coded here !!
+	// IPFS related
+	IPFS_ENDPOINT := "http://localhost:5001"
+	IPFS_PROJECTID := ""
+	IPFS_SECRET := ""
+
+	// API SERVER REALTED
+	PORT := ":8181"
 	// Initialize your artifact repository, service, and handler
-	repo := artifact.NewDatabaseArtifactRepository() // Initialize your artifact repository (e.g., database repository)
+	//Here comes the DB entries as well!!
+	repo := artifact.NewStorageArtifactRepository(IPFS_ENDPOINT, IPFS_PROJECTID, IPFS_SECRET) // Initialize your artifact repository (e.g., database repository)
 	artifactService := artifact.NewArtifactService(repo)
 	artifactHandler := api.NewArtifactHandler(artifactService)
 
@@ -19,9 +26,8 @@ func main() {
 	http.HandleFunc("/sign-in", api.SignInHandler)
 	http.HandleFunc("/create-artifact", logRequest(artifactHandler.CreateArtifact))
 
-	port := ":8080"
-	log.Printf("Server started on port %s", port)
-	err := http.ListenAndServe(port, nil)
+	log.Printf("Server started on port %s", PORT)
+	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
 		log.Fatal("Server encountered an error:", err)
 	}
