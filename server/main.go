@@ -14,11 +14,14 @@ func main() {
 	IPFS_PROJECTID := ""
 	IPFS_SECRET := ""
 
-	// API SERVER REALTED
+	//DB related
+	MYSQL_DSN := "burnfeed:burnfeed@tcp(localhost:3306)/burnfeed?charset=utf8mb4&parseTime=True&loc=Local"
+
+	// API server related
 	PORT := ":8181"
 	// Initialize your artifact repository, service, and handler
 	//Here comes the DB entries as well!!
-	repo := artifact.NewStorageArtifactRepository(IPFS_ENDPOINT, IPFS_PROJECTID, IPFS_SECRET) // Initialize your artifact repository (e.g., database repository)
+	repo := artifact.NewStorageArtifactRepository(IPFS_ENDPOINT, IPFS_PROJECTID, IPFS_SECRET, MYSQL_DSN) // Initialize your artifact repository (e.g., database repository)
 	artifactService := artifact.NewArtifactService(repo)
 	artifactHandler := api.NewArtifactHandler(artifactService)
 

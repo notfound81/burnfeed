@@ -9,12 +9,14 @@ type Artifact struct {
 // ArtifactRepository defines the interface for artifact data storage.
 // Basically responsible for CRUD operations.
 type ArtifactRepository interface {
-	CreateArtifact(artifact Artifact) (string, error)
+	CreateArtifact(artifactJsonString string) (string, error)
 	GetArtifactByID(ID string) (*Artifact, error)
+	GetUserArtifacts(wallet string) (string, error)
 }
 
 // ArtifactService defines the interface for business logic.
 type ArtifactService interface {
-	CreateArtifact(artifact Artifact) (string, error)
+	CreateArtifact(artifactJsonString string) (string, error)
 	GetArtifactByID(ID string) (*Artifact, error)
+	GetUserArtifacts(wallet string) (string, error)
 }

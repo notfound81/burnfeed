@@ -6,65 +6,43 @@ import (
 	"strings"
 
 	ipfsApi "github.com/ipfs/go-ipfs-api"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // Or we can say
 type StorageArtifactRepository struct {
 	// Any database / ipfs connection or configurations needed
 	ipfsClient *ipfsApi.Shell
+	db         *gorm.DB
 }
 
-func NewStorageArtifactRepository(endpoint, projectId, projectSecret string) *StorageArtifactRepository {
+func NewStorageArtifactRepository(endpoint, projectId, projectSecret, dbDsn string) *StorageArtifactRepository {
 	// Initialize and return a new instance of StorageArtifactRepository
-	var IPFSClient *ipfsApi.Shell
+	var ipfsClient *ipfsApi.Shell
 	if projectId != "" && projectSecret != "" {
-		IPFSClient = ipfsApi.NewShellWithClient(endpoint, NewClient(projectId, projectSecret))
+		ipfsClient = ipfsApi.NewShellWithClient(endpoint, NewClient(projectId, projectSecret))
 	} else {
-		IPFSClient = ipfsApi.NewShell(endpoint)
+		ipfsClient = ipfsApi.NewShell(endpoint)
 	}
+
+	db, err := gorm.Open(mysql.Open(dbDsn), nil)
+	if err != nil {
+		return nil
+	}
+
 	artifactory := &StorageArtifactRepository{
-		ipfsClient: IPFSClient,
+		ipfsClient: ipfsClient,
+		db:         db,
 	}
 
 	return artifactory
 }
 
-func (r *StorageArtifactRepository) CreateArtifact(artifact Artifact) (string, error) {
-	// Implementation for creating an artifact on ipfs
-	// Mock data !
+func (r *StorageArtifactRepository) CreateArtifact(artifactJsonString string) (string, error) {
 	fmt.Println("CreateArtifact")
-	// Define a JSON string as a variable - THis is just a mock !
-	jsonStr := `{
-        "type": "action",
-        "timestamp": "2023-08-20 13:02:09.846505 +0800 CST m=+0.285431793",
-        "actions": [
-            {
-                "subtype": "tweet",
-                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
-            },
-            {
-                "subtype": "tweet",
-                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9",
-                "retweetOf": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
-            },
-            {
-                "subtype": "follow",
-                "user": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-                "followee": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-            },
-            {
-                "subtype": "like",
-                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
-            },
-            {
-                "subtype": "send_message",
-                "to": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-                "message": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
-            }
-        ]
-    }`
 
-	cid, err := r.ipfsClient.Add(strings.NewReader(jsonStr))
+	cid, err := r.ipfsClient.Add(strings.NewReader(artifactJsonString))
 
 	return cid, err
 }
@@ -74,6 +52,12 @@ func (r *StorageArtifactRepository) GetArtifactByID(ID string) (*Artifact, error
 	// Mock implementation for testing - later connect it with DB or IPFS (or both).
 	fmt.Println("GetArtifactByID")
 	return &Artifact{"0x123456"}, nil
+}
+
+func (s *StorageArtifactRepository) GetUserArtifacts(wallet string) (string, error) {
+	// Add business logic to retrieve all entries per DB per user
+	// Right now just call repo's corresponding function.
+	return "TO_BE_IMPLEMENTED", nil
 }
 
 // NewClient creates an http.Client that automatically perform basic auth on each request.

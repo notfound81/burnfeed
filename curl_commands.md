@@ -35,12 +35,34 @@ curl -X POST -H "Content-Type: application/json" -H "Signature: 0xe3b93fbb319584
 - **Example request:**
 ```
 curl -X POST -H "Content-Type: application/json" -d '{
-    "type": "artifact",
-    "version": "0.1",
-    "subtype": "tweet",
-    "user": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
-    "content": "This serves as an example of a tweet."
-}' http://localhost:8080/create-artifact
+        "type": "action",
+        "timestamp": "2023-08-20 13:02:09.846505 +0800 CST m=+0.285431793",
+        "actions": [
+            {
+                "subtype": "tweet",
+                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
+            },
+            {
+                "subtype": "tweet",
+                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9",
+                "retweetOf": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
+            },
+            {
+                "subtype": "follow",
+                "user": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+                "followee": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+            },
+            {
+                "subtype": "like",
+                "tweet": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
+            },
+            {
+                "subtype": "send_message",
+                "to": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+                "message": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
+            }
+        ]
+    }' http://localhost:8181/create-artifact
 
 ```
 - **Example response:**
