@@ -1,6 +1,7 @@
 package artifact
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -39,12 +40,15 @@ func NewStorageArtifactRepository(endpoint, projectId, projectSecret, dbDsn stri
 	return artifactory
 }
 
-func (r *StorageArtifactRepository) CreateArtifact(artifactJsonString string) (string, error) {
-	fmt.Println("CreateArtifact")
+func (r *StorageArtifactRepository) CreateArtifact(artifactType, artifactJsonString string) (string, error) {
 
-	cid, err := r.ipfsClient.Add(strings.NewReader(artifactJsonString))
-
-	return cid, err
+	// Check if the action type is supported
+	if artifactType == "send_message" || artifactType == "tweet" || artifactType == "retweetOf" || artifactType == "artifact_file" {
+		cid, err := r.ipfsClient.Add(strings.NewReader(artifactJsonString))
+		return cid, err
+	} else {
+		return "", errors.New("Unsupported action type")
+	}
 }
 
 func (r *StorageArtifactRepository) GetArtifactByID(ID string) (*Artifact, error) {

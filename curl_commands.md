@@ -30,11 +30,12 @@ curl -X POST -H "Content-Type: application/json" -H "Signature: 0xe3b93fbb319584
 {"nonce":"xHL5/YhoDO18iq7MUlhKmocUlY8QXciMhOAp1K2RIJU="}
 ```
 
-## Create artifact
+## Create artifacts - different types
 
+### Artifact file
 - **Example request:**
 ```
-curl -X POST -H "Content-Type: application/json" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Action-Type: artifact_file" -d '{
         "type": "action",
         "timestamp": "2023-08-20 13:02:09.846505 +0800 CST m=+0.285431793",
         "actions": [
@@ -62,6 +63,45 @@ curl -X POST -H "Content-Type: application/json" -d '{
                 "message": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
             }
         ]
+    }' http://localhost:8181/create-artifact
+
+```
+- **Example response:**
+```json
+{"ipfsCID":"0x123456"}
+```
+
+### Message
+- **Example request:**
+```
+curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: send_message" -d '{
+        "message": "My Messagge",
+    }' http://localhost:8181/create-artifact
+
+```
+- **Example response:**
+```json
+{"ipfsCID":"0x123456"}
+```
+
+### Tweet
+- **Example request:**
+```
+curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: tweet" -d '{
+        "tweet": "This is my first tweet",
+    }' http://localhost:8181/create-artifact
+
+```
+- **Example response:**
+```json
+{"ipfsCID":"0x123456"}
+```
+
+### Retweet
+- **Example request:**
+```
+curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: retweetOf" -d '{
+        "retweetOf": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9",
     }' http://localhost:8181/create-artifact
 
 ```

@@ -74,62 +74,10 @@ Status message confirming user registration
 ```
 
 ## Create artifact
-- **URL:** `/artifact`
+- **URL:** `/create-artifact`
 - **Method:** `POST`
-- **Purpose:** Create a new artifact (tweet, message, etc.) and store it on IPFS.
-- **Request Format:**
-```json
-{
-    "type": "artifact",
-    "version": "0.1",
-    "subtype": "tweet",
-    "user": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
-    "content": "This serves as an example of a tweet."
-}
-```
-- **Response Format:**
-```json
-{
-    "ipfsCID": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9"
-}
-```
-- **Possible testing:**
-1. Run main.go for the server (localhost:8080 by default)
-2. Open a terminal and use curl to test the endpoint
-```
-curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_TOKEN" -d '{
-    "type": "artifact",
-    "version": "0.1",
-    "subtype": "tweet",
-    "user": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
-    "content": "This serves as an example of a tweet."
-}' http://localhost:8080/create-artifact
-```
-3. Check the response, something similar
-```
-{"ipfsCID":"0x123456"}
-```
+- **Description:**: Please see `curl_commands.md`
 
-## Create action
-- **URL:** `/action`
-- **Method:** `POST`
-- **Purpose:** Create a new action (follow, retweet, etc.) and store it on IPFS.
-- **Request Format:**
-```json
-{
-    "type": "action",
-    "version": "0.1",
-    "subtype": "follow",
-    "user": "0xAbC1234def5678ghI901jklmNoPq234Rstuv567WXyZ",
-    "followee": "0xDef4567ghiJ891klMno234PQR567stUv890WXYz12aB"
-}
-```
-- **Response Format:**
-```json
-{
-    "ipfsCID": "ipfs:QmYzZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqGUXPNzXdC9"
-}
-```
 
 ## Get user
 - **URL:** `/user/{address}`
@@ -151,25 +99,6 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_
 - **Response Format:**
 ```json
 List of suggested artifacts
-```
-
-## Like
-- **URL:** `/like`
-- **Method:** `POST`
-- **Purpose:** Handle the "like" action for a tweet and update token burns.
-- **Request Format:**
-```json
-{
-    "type": "action",
-    "version":"0.1",
-    "subtype": "like",
-    "likeOf": "ipfs:QmQeKSUqZoGUXPNzZkH64BFAkVVhoFAPA8uBkfNydC9xX",
-    "burn": "10000000000000"
-}
-```
-- **Response Format:**
-```json
-Status message confirming like action
 ```
 
 ## Get popular tweets

@@ -8,10 +8,10 @@ func NewArtifactService(repo ArtifactRepository) ArtifactService {
 	return &artifactService{repo: repo}
 }
 
-func (s *artifactService) CreateArtifact(artifactJsonString string) (string, error) {
+func (s *artifactService) CreateArtifact(artifactType, artifactJsonString string) (string, error) {
 	// Add business logic to create an artifact.
 	// Right now just call repo's corresponding function.
-	return s.repo.CreateArtifact(artifactJsonString)
+	return s.repo.CreateArtifact(artifactType, artifactJsonString)
 }
 
 func (s *artifactService) GetArtifactByID(ID string) (*Artifact, error) {
