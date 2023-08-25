@@ -74,7 +74,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Action-Type: artifact_fil
 ### Message
 - **Example request:**
 ```
-curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: send_message" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Action-Type: send_message" -d '{
         "message": "My Messagge",
     }' http://localhost:8181/create-artifact
 
@@ -87,7 +87,7 @@ curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: send_messag
 ### Tweet
 - **Example request:**
 ```
-curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: tweet" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Action-Type: tweet" -d '{
         "tweet": "This is my first tweet",
     }' http://localhost:8181/create-artifact
 
@@ -100,7 +100,7 @@ curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: tweet" -d '
 ### Retweet
 - **Example request:**
 ```
-curl -X POST -H "Content-Type: application/json" - H "X-Action-Type: retweetOf" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Action-Type: retweetOf" -d '{
         "retweetOf": "ipfs:QmZkH64BFAkVVhoFAPA8uBkfNyzmQeKSUqZoGUXPNzXdC9",
     }' http://localhost:8181/create-artifact
 
